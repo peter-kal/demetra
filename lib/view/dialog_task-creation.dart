@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class DialogPage extends StatefulWidget {
@@ -38,8 +39,8 @@ class _DialogPageState extends State<DialogPage> {
                       title: const YaruDialogTitleBar(
                         leading: Center(
                           child: SizedBox(
-                            width: 300,
-                            height: 100,
+                            width: 490,
+                            height: 460,
                           ),
                         ),
                         title: Text('Create A Task'),
@@ -60,30 +61,38 @@ class _DialogPageState extends State<DialogPage> {
                           ),
                           const Text('Details:'),
                           TextField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Notes',
                             ),
                             maxLines: 8,
-                            minLines: 1,
+                            minLines: 8,
                             maxLength: 500,
                             scrollPadding: EdgeInsets.all(500.0),
                             controller: _controller2,
                             onSubmitted: ((description) => String),
                           ),
+                          const SizedBox(width: 1, height: 40),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              ElevatedButton(
-                                  onPressed: null, child: Text('Save')),
                               OutlinedButton(
                                   onPressed: () => Navigator.maybePop(context),
-                                  child: Text('Cancel')),
+                                  child: const Text('Cancel')),
+                              const SizedBox(
+                                //add space between the buttons
+                                width: 5,
+                                height: 2,
+                              ),
+                              const ElevatedButton(
+                                  onPressed: null, child: Text(' Save ')),
                             ],
                           ),
                         ],
                       )));
                 },
               ),
-          child: const Text('+ Add a task')),
+          child: const Text(' + Add a task ')),
     );
   }
 }

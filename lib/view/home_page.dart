@@ -17,9 +17,15 @@ class _HomePageState extends State<HomePage> {
           title: const Text('Demetra'),
         ),
         body: Column(
-          children: [
-           DialogPage(),
-           
+          children: const [
+            SizedBox(
+              height: 5,
+            ),
+            DialogPage(),
+            SizedBox(
+              width: 1,
+              height: 15,
+            ),
           ],
         ));
   }
