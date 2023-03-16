@@ -61,13 +61,23 @@ class _DialogPageState extends State<DialogPage> {
                           const Text('Details:'),
                           TextField(
                             decoration: InputDecoration(
-                              labelText: 'Description',
+                              labelText: 'Notes',
                             ),
                             maxLines: 8,
                             minLines: 1,
-                            maxLength: 200,
+                            maxLength: 500,
+                            scrollPadding: EdgeInsets.all(500.0),
                             controller: _controller2,
                             onSubmitted: ((description) => String),
+                          ),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                  onPressed: null, child: Text('Save')),
+                              OutlinedButton(
+                                  onPressed: () => Navigator.maybePop(context),
+                                  child: Text('Cancel')),
+                            ],
                           ),
                         ],
                       )));
