@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yaru/yaru.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class DialogPage extends StatefulWidget {
@@ -10,21 +10,22 @@ class DialogPage extends StatefulWidget {
 }
 
 class _DialogPageState extends State<DialogPage> {
-  late TextEditingController _controller;
-  late TextEditingController _controller2;
+  TextEditingController _controller = TextEditingController();
+  String title = "";
+  late String text;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller2 = TextEditingController();
+  void SaveButton() {
+    final _mybox2 = Hive.box('taskbox');
+    _mybox2.put('name', title);
+    print(_mybox2.get('name'));
+    _controller.clear();
+    Navigator.maybePop(context);
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    _controller2.dispose();
-    super.dispose();
+  void setText() {
+    setState(() {
+      text = title;
+    });
   }
 
   @override
@@ -51,48 +52,52 @@ class _DialogPageState extends State<DialogPage> {
                           const Text('Name:'),
                           TextField(
                             decoration: const InputDecoration(
-                              labelText: 'Name',
+                              hintText: 'Type the name of the task',
                             ),
-                            maxLength: 50,
-                            maxLines: 2,
+                            maxLength: 250,
+                            maxLines: 4,
                             minLines: 1,
                             controller: _controller,
-                            onSubmitted: ((title) => String),
-                          ),
-                          const Text('Details:'),
-                          TextField(
-                            decoration: const InputDecoration(
-                              labelText: 'Notes',
-                            ),
-                            maxLines: 8,
-                            minLines: 8,
-                            maxLength: 500,
-                            scrollPadding: EdgeInsets.all(500.0),
-                            controller: _controller2,
-                            onSubmitted: ((description) => String),
+                            onChanged: (value) => title = value,
                           ),
                           const SizedBox(width: 1, height: 40),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              OutlinedButton(
-                                  onPressed: () => Navigator.maybePop(context),
-                                  child: const Text('Cancel')),
-                              const SizedBox(
-                                //add space between the buttons
-                                width: 5,
-                                height: 2,
-                              ),
-                              const ElevatedButton(
-                                  onPressed: null, child: Text(' Save ')),
-                            ],
+                          Container(
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                OutlinedButton(
+                                    onPressed: () =>
+                                        Navigator.maybePop(context),
+                                    child: const Text('Cancel')),
+                                const SizedBox(
+                                  //add space between the buttons
+                                  width: 5,
+                                  height: 2,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () => SaveButton(),
+                                    child: Text(' Save ')),
+                              ],
+                            ),
                           ),
                         ],
                       )));
                 },
               ),
-          child: const Text(' + Add a task ')),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(Icons.add),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text('New Task'),
+            ],
+          )),
     );
   }
 }
